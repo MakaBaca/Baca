@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.RadioButton?>
+<?import javafx.scene.control.TableColumn?>
+<?import javafx.scene.control.TableView?>
+<?import javafx.scene.control.ToggleGroup?>
+<?import javafx.scene.image.Image?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.StackPane?>
+<?import javafx.scene.shape.Circle?>
+<?import javafx.scene.shape.Line?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="625.0" prefWidth="1366.0" style="-fx-background-color: #6a638c;" xmlns="http://javafx.com/javafx/9.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="application.EzBaccaratController">
+	<children>
+		<Label layoutX="116.0" layoutY="71.0" prefHeight="55.0" prefWidth="156.0" text="PLAYER" textAlignment="CENTER" textFill="#ede6e69e">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<Label layoutX="367.0" layoutY="71.0" prefHeight="55.0" prefWidth="156.0" text="BANKER" textAlignment="CENTER" textFill="#ede6e69d">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<Line endX="100.0" layoutX="214.0" layoutY="99.0" rotate="-90.0" startX="65.0" stroke="#ede6e6" />
+		<!-- <Rectangle fx:id="bankerBet" fill="#ff000087" height="114.0" layoutX="377.0" 
+			layoutY="240.0" onMouseClicked="#placeBankerBet" stroke="#ede6e6" strokeType="INSIDE" 
+			width="146.0" /> -->
+		<Text fill="#ede6e6" layoutX="430.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Banker 1:1" />
+		<Text fill="#ede6e6" layoutX="220.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Panda 25:1" />
+		<Text fill="#ede6e6" layoutX="430.0" layoutY="195.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Dragon 40:1" />
+		<Text fill="#ede6e6" layoutX="288.0" layoutY="260.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Tie 8:1" />
+		<ImageView fx:id="playerSecondCard" fitHeight="73.0" fitWidth="51.0" layoutX="216.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
+		<ImageView fx:id="playerThirdCard" fitHeight="73.0" fitWidth="51.0" layoutX="72.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" rotate="-90.0" />
+		<ImageView fx:id="playerFirstCard" fitHeight="73.0" fitWidth="51.0" layoutX="152.0" layoutY="62.0" pickOnBounds="true" preserveRatio="true" />
+		<AnchorPane fx:id="gamePane" layoutX="72.0" layoutY="181.0" prefHeight="341.0" prefWidth="451.0">
+			<children>
+				<Text fill="#ede6e6" layoutX="87.0" layoutY="74.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Player 1:1" />
+				<StackPane fx:id="playerStack" layoutY="59.0" onMouseClicked="#placePlayerBet" prefHeight="114.0" prefWidth="146.0" style="-fx-background-color: #3a43dd87; -fx-border-color: #ede6e6;" />
+				<Label fx:id="pUnits" layoutX="89.0" layoutY="145.0" onMouseClicked="#placePlayerBet" prefHeight="20.0" prefWidth="51.0" textFill="#0f0f0f">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+				<StackPane fx:id="tieStack" layoutX="158.0" layoutY="59.0" onMouseClicked="#placeTieBet" prefHeight="114.0" prefWidth="114.0" style="-fx-background-color: #76d38787; -fx-border-color: #ede6e6;" />
+				<Label fx:id="tUnits" layoutX="213.0" layoutY="135.0" onMouseClicked="#placeTieBet" prefHeight="20.0" prefWidth="51.0" textFill="#0f0f0f">
+					<font>
+						<Font name="System Bold" size="14.0" />
+					</font>
+				</Label>
+				<StackPane fx:id="bankerStack" layoutX="287.0" layoutY="59.0" onMouseClicked="#placeBankerBet" prefHeight="114.0" prefWidth="146.0" style="-fx-background-color: #ff000087; -fx-border-color: #ede6e6;" />
+				<Circle fx:id="dollar5" fill="YELLOW" layoutX="40.0" layoutY="262.0" radius="24.0" stroke="BLACK" strokeType="INSIDE" />
+				<Circle fx:id="dollar25" fill="YELLOW" layoutX="112.0" layoutY="262.0" radius="24.0" stroke="BLACK" strokeType="INSIDE" />
+				<Circle fx:id="dollar100" fill="YELLOW" layoutX="183.0" layoutY="262.0" radius="24.0" stroke="BLACK" strokeType="INSIDE" />
+				<RadioButton fx:id="five" layoutX="30.0" layoutY="295.0" mnemonicParsing="false" selected="true">
+					<toggleGroup>
+						<ToggleGroup fx:id="unit" />
+					</toggleGroup>
+				</RadioButton>
+				<RadioButton fx:id="twentyFive" layoutX="102.0" layoutY="295.0" mnemonicParsing="false" toggleGroup="$unit" />
+				<RadioButton fx:id="hundred" layoutX="173.0" layoutY="295.0" mnemonicParsing="false" toggleGroup="$unit" />
+				<Button fx:id="deal" layoutX="252.0" layoutY="262.0" mnemonicParsing="false" onAction="#deal" text="Deal" />
+				<Button fx:id="clearBets" layoutX="311.0" layoutY="262.0" mnemonicParsing="false" onAction="#clearBets" text="Clear Bets" />
+            <StackPane fx:id="pandaStack" onMouseClicked="#placePanda" prefHeight="51.0" prefWidth="218.0" style="-fx-background-color: #3a43dd87; -fx-border-color: #ede6e6;" />
+            <Label fx:id="pandaUnits" layoutX="160.0" layoutY="25.0" onMouseClicked="#placePanda" prefHeight="20.0" prefWidth="59.0" textFill="#0f0f0f">
+				<font>
+					<Font name="System Bold" size="14.0" />
+				</font>
+			</Label>
+            <StackPane fx:id="dragonStack" layoutX="222.0" onMouseClicked="#placeDragon" prefHeight="51.0" prefWidth="211.0" style="-fx-background-color: #ff000087; -fx-border-color: #ede6e6;" />
+            <Label fx:id="dragonUnits" layoutX="375.0" layoutY="25.0" onMouseClicked="#placeDragon" prefHeight="20.0" prefWidth="59.0" textFill="#0f0f0f">
+				<font>
+					<Font name="System Bold" size="14.0" />
+				</font>
+			</Label>
+            <Button layoutX="397.0" layoutY="262.0" mnemonicParsing="false" onAction="#getCash" text="ATM" />
+            <Button layoutX="314.0" layoutY="300.0" mnemonicParsing="false" onAction="#prepareNewShoe" text="New Shoe" />
+			</children>
+		</AnchorPane>
+		<ImageView fx:id="bankerThirdCard" fitHeight="73.0" fitWidth="51.0" layoutX="491.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" rotate="90.0" />
+		<ImageView fx:id="bankerFirstCard" fitHeight="73.0" fitWidth="51.0" layoutX="334.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
+		<ImageView fx:id="bankerSecondCard" fitHeight="73.0" fitWidth="51.0" layoutX="397.0" layoutY="63.0" pickOnBounds="true" preserveRatio="true" />
+		<Text fx:id="result" fontSmoothingType="LCD" layoutX="82.0" layoutY="32.0" strokeType="OUTSIDE" strokeWidth="0.0" wrappingWidth="467.999995470047">
+			<font>
+				<Font name="System Bold" size="30.0" />
+			</font>
+		</Text>
+		<Rectangle arcHeight="5.0" arcWidth="5.0" fill="#f4e0ad59" height="36.0" layoutX="68.0" layoutY="7.0" stroke="#d6e40b00" strokeType="INSIDE" width="496.0" />
+		<Label fx:id="bUnits" layoutX="440.0" layoutY="320.0" onMouseClicked="#placeBankerBet" prefHeight="20.0" prefWidth="59.0" textFill="#0f0f0f">
+			<font>
+				<Font name="System Bold" size="14.0" />
+			</font>
+		</Label>
+		<Label layoutX="187.0" layoutY="535.0" prefHeight="55.0" prefWidth="146.0" text="Balance :" textAlignment="CENTER" textFill="#ede6e69e">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<Label fx:id="unitBalance" layoutX="346.0" layoutY="535.0" prefHeight="55.0" prefWidth="146.0" textAlignment="CENTER" textFill="#ede6e69e">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<GridPane fx:id="bigRod" gridLinesVisible="true" layoutX="598.0" layoutY="53.0" prefHeight="125.0" prefWidth="753.0" style="-fx-background-color: #f4e0ad; -fx-border-color: #000000;">
+			<columnConstraints>
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+				<ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+			</columnConstraints>
+			<rowConstraints>
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+				<RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+			</rowConstraints>
+		</GridPane>
+		<Label layoutX="598.0" layoutY="-1.0" prefHeight="53.0" prefWidth="195.0" text="Big Eye Rod" textAlignment="CENTER" textFill="#ede6e69e">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+		<AnchorPane layoutX="800.0" layoutY="7.0" prefHeight="36.0" prefWidth="459.0" style="-fx-background-color: #f4e0ad;">
+			<children>
+				<ImageView fitHeight="25.0" fitWidth="21.0" layoutX="101.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="/images/player.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="noOfPlayers" layoutX="131.0" layoutY="9.0" text="0" />
+				<ImageView fitHeight="25.0" fitWidth="21.0" layoutX="161.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="/images/banker.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="noOfBankers" layoutX="188.0" layoutY="9.0" text="0" />
+				<ImageView fitHeight="25.0" fitWidth="21.0" layoutX="213.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+					<image>
+						<Image url="/images/firstHandTie.png" />
+					</image>
+				</ImageView>
+				<Label fx:id="noOfTies" layoutX="242.0" layoutY="9.0" text="0" />
+				<Label layoutX="14.0" layoutY="9.0" text="# of hands:" />
+				<Label fx:id="noOfHands" layoutX="80.0" layoutY="9.0" text="0" />
+            <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="276.0" layoutY="8.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/images/Dragon.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="noOfDragon" layoutX="305.0" layoutY="10.0" text="0" />
+            <ImageView fitHeight="25.0" fitWidth="21.0" layoutX="336.0" layoutY="7.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="/images/Panda.png" />
+               </image>
+            </ImageView>
+            <Label fx:id="noOfPanda" layoutX="372.0" layoutY="9.0" text="0" />
+			</children>
+		</AnchorPane>
+		<TableView fx:id="betHistory" layoutX="1047.0" layoutY="270.0" prefHeight="341.0" prefWidth="218.0">
+			<columns>
+				<TableColumn fx:id="hBets" editable="false" prefWidth="75.0" sortable="false" text="Bets" />
+					
+				<TableColumn fx:id="hWon" editable="false" prefWidth="75.0" sortable="false" text="Won" />
+					
+				<TableColumn fx:id="hBalance" editable="false" prefWidth="75.0" sortable="false" text="Balance" />
+					
+			</columns>
+		</TableView>
+		<Label layoutX="1050.0" layoutY="207.0" prefHeight="53.0" prefWidth="195.0" text="Bet History" textAlignment="CENTER" textFill="#ede6e69e">
+			<font>
+				<Font size="36.0" />
+			</font>
+		</Label>
+      <TableView fx:id="btcScoreCard" layoutX="564.0" layoutY="248.0" prefHeight="366.0" prefWidth="477.0" style="-fx-border-color: BLACK;">
+        <columns>
+          <TableColumn fx:id="hands" editable="false" prefWidth="32.0" sortable="false" text="#" />
+          <TableColumn fx:id="score" editable="false" prefWidth="64.0" sortable="false" text="Score" />
+            <TableColumn fx:id="p" editable="false" prefWidth="73.0" sortable="false" text="P">
+             	
+            </TableColumn>
+            <TableColumn fx:id="b" editable="false" prefWidth="68.0" sortable="false" text="B">
+            	
+            </TableColumn>
+            <TableColumn fx:id="pbCount" editable="false" prefWidth="51.0" sortable="false" text="P/B">
+            	
+            </TableColumn>
+            <TableColumn fx:id="orCount" editable="false" prefWidth="34.0" sortable="false" text="OR">
+            	
+            </TableColumn>
+            <TableColumn fx:id="otCount" editable="false" minWidth="0.0" prefWidth="47.0" sortable="false" text="OT" />
+            <TableColumn fx:id="oneInARow" editable="false" prefWidth="39.0" sortable="false" text="1's" />
+            <TableColumn fx:id="twoInARow" editable="false" prefWidth="32.0" sortable="false" text="2's" />
+            <TableColumn fx:id="threeOrMoreInARow" editable="false" prefWidth="35.0" sortable="false" text="3+" />
+        </columns>
+      </TableView>
+      <Label layoutX="564.0" layoutY="195.0" prefHeight="53.0" prefWidth="252.0" text="BTC Score Card" textAlignment="CENTER" textFill="#ede6e69e">
+         <font>
+            <Font size="36.0" />
+         </font>
+      </Label>
+      <ImageView fitHeight="40.0" fitWidth="34.0" layoutX="26.0" layoutY="191.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/Panda.png" />
+         </image>
+      </ImageView>
+      <ImageView fitHeight="40.0" fitWidth="34.0" layoutX="513.0" layoutY="190.0" pickOnBounds="true" preserveRatio="true">
+         <image>
+            <Image url="/images/Dragon.png" />
+         </image>
+      </ImageView>
+	</children>
+</AnchorPane>

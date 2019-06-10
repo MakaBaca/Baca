@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="UTF-8"?>
+	<project name="JavaFX_Baca" default="do-deploy" basedir="."  xmlns:fx="javafx:com.sun.javafx.tools.ant">
+	<target name="init-fx-tasks">
+		<path id="fxant">
+			<filelist>
+				<file name="${java.home}\..\lib\ant-javafx.jar"/>
+				<file name="${java.home}\lib\jfxrt.jar"/>
+				<file name="${basedir}"/>
+			</filelist>
+		</path>
+	
+		<taskdef resource="com/sun/javafx/tools/ant/antlib.xml"
+			uri="javafx:com.sun.javafx.tools.ant"
+			classpathref="fxant"/>
+	</target>
+	<target name="setup-staging-area">
+		<delete dir="externalLibs" />
+		<delete dir="project" />
+		<delete dir="projectRefs" />
+	
+		<mkdir dir="externalLibs" />
+	
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-scratchpad-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\lib">
+				<filename name="commons-collections4-4.1.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-excelant-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\lib">
+				<filename name="commons-codec-1.10.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-ooxml-schemas-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\workspace\Baca">
+				<filename name="jgoodies-forms-1.8.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-examples-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\workspace\Baca">
+				<filename name="miglayout15-swing.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\ooxml-lib">
+				<filename name="curvesapi-1.04.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\lib">
+				<filename name="junit-4.12.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\lib">
+				<filename name="log4j-1.2.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\ooxml-lib">
+				<filename name="xmlbeans-2.6.0.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17">
+				<filename name="poi-ooxml-3.17.jar"/>
+			</fileset>
+		</copy>
+		<copy todir="externalLibs">
+			<fileset dir="C:\Users\Visitor\Documents\personal\personal\personal\poi\poi-bin-3.17-20170915\poi-3.17\lib">
+				<filename name="commons-logging-1.2.jar"/>
+			</fileset>
+		</copy>
+	
+		<mkdir dir="project" />
+		<copy todir="project">
+			<fileset dir="C:\Users\Visitor\workspace\JavaFX_Baca">
+				<include name="src/**" />
+			</fileset>
+		</copy>
+	
+		<mkdir dir="projectRefs" />
+		<copy todir="projectRefs">
+			<fileset dir="C:\Users\Visitor\workspace">
+				<include name="Baca\src/**" />
+			</fileset>
+		</copy>
+	</target>
+	<target name='do-compile'>
+		<delete dir="build" />
+		<mkdir dir="build/src" />
+		<mkdir dir="build/libs" />
+		<mkdir dir="build/classes" />
+	
+		<!-- Copy project-libs references -->
+		<copy todir="build/libs">
+			<fileset dir="externalLibs">
+				<include name="poi-examples-3.17.jar"/>
+				<include name="commons-codec-1.10.jar"/>
+				<include name="log4j-1.2.17.jar"/>
+				<include name="poi-scratchpad-3.17.jar"/>
+				<include name="commons-logging-1.2.jar"/>
+				<include name="jgoodies-forms-1.8.0.jar"/>
+				<include name="miglayout15-swing.jar"/>
+				<include name="poi-3.17.jar"/>
+				<include name="poi-ooxml-schemas-3.17.jar"/>
+				<include name="xmlbeans-2.6.0.jar"/>
+				<include name="poi-excelant-3.17.jar"/>
+				<include name="commons-collections4-4.1.jar"/>
+				<include name="curvesapi-1.04.jar"/>
+				<include name="poi-ooxml-3.17.jar"/>
+				<include name="junit-4.12.jar"/>
+			</fileset>
+		</copy>
+	
+		<!-- Copy project references -->
+		<copy todir="build/src">
+			<fileset dir="projectRefs/Baca/src">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	
+		<!-- Copy project sources itself -->
+		<copy todir="build/src">
+			<fileset dir="project/src">
+				<include name="**/*"/>
+			</fileset>
+		</copy>
+	
+		<javac includeantruntime="false" source="1.8" target="1.8" srcdir="build/src" destdir="build/classes" encoding="Cp1252">
+			<classpath>
+				<fileset dir="build/libs">
+					<include name="*"/>
+				</fileset>
+			</classpath>
+		</javac>
+	
+		<!-- Copy over none Java-Files -->
+		<copy todir="build/classes">
+		<fileset dir="project/src">
+			<exclude name="**/*.java"/>
+		</fileset>
+		</copy>
+	
+		<copy todir="build/classes">
+			<fileset dir="projectRefs/Baca/src">
+				<exclude name="**/*.java"/>
+			</fileset>
+		</copy>
+	
+	</target>
+	<target name="do-deploy" depends="setup-staging-area, do-compile, init-fx-tasks">
+		<delete file="dist"/>
+		<delete file="deploy" />
+	
+		<mkdir dir="dist" />
+		<mkdir dir="dist/libs" />
+	
+		<copy todir="dist/libs">
+			<fileset dir="externalLibs">
+				<include name="*" />
+			</fileset>
+		</copy>
+	
+	
+		<fx:resources id="appRes">
+			<fx:fileset dir="dist" includes="JavaFX_Baca.jar"/>
+			<fx:fileset dir="dist" includes="libs/*"/>
+		</fx:resources>
+	
+		<fx:application id="fxApplication"
+			name="Baca"
+			mainClass="application.Main"
+			version="1.0"
+		/>
+	
+		<mkdir dir="build/classes/META-INF" />
+	
+	
+	
+		<fx:jar destfile="dist/JavaFX_Baca.jar">
+			<fx:application refid="fxApplication"/>
+			<fileset dir="build/classes">
+			</fileset>
+			<fx:resources refid="appRes"/>
+	
+			<manifest>
+				<attribute name="Implementation-Vendor" value="Makesh"/>
+				<attribute name="Implementation-Title" value="Baca"/>
+				<attribute name="Implementation-Version" value="1.0"/>
+				<attribute name="JavaFX-Feature-Proxy" value="None"/>
+			</manifest>
+		</fx:jar>
+	
+	
+		<mkdir dir="deploy" />
+		<!-- Need to use ${basedir} because somehow the ant task is calculating the directory differently -->
+		<fx:deploy
+			embedJNLP="false"
+			extension="false"
+			includeDT="false"
+			offlineAllowed="true"
+			outdir="${basedir}/deploy"
+			outfile="JavaFX_Baca" nativeBundles="exe"
+			updatemode="background" >
+	
+			<fx:platform basedir="${java.home}"/>
+			<fx:info title="JavaFX_Baca" vendor="Makesh"/>
+	
+			<fx:application refId="fxApplication"/>
+			<fx:resources refid="appRes"/>
+		</fx:deploy>
+	
+	
+	</target>
+</project>
