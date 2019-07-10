@@ -268,11 +268,7 @@
 		<input type="radio" name="wageredOn" value="banker">B
 		<input type="radio" name="wageredOn" value="nb" checked>NB
 		<br>
-		<input type="radio" name="unit" value="0">0
-		<input type="radio" name="unit" value="1" checked>1
-		<input type="radio" name="unit" value="2">2
-		<input type="radio" name="unit" value="3">3
-		<input type="radio" name="unit" value="4">4
+		<input type="number" name="unit" value="0" min="0" max="10">
 		<input type="submit" name ="player" value="player">
 		------->
 		<input type="submit" name ="banker" value="banker">

@@ -155,12 +155,10 @@ public class EzBaccarat extends AbstractBaccarat {
 		return winingUnits;
 	}
 
-	@Override
 	public void clearBonusBets() {
 		bonusBetsPlaced.clear();
 	}
 
-	@Override
 	public void clearAllBets() {
 		bonusBetsPlaced.clear();
 		baseBetsPlaced.clear();
