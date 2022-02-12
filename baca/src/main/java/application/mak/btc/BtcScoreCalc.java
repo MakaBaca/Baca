@@ -68,6 +68,15 @@ public class BtcScoreCalc {
 	
 	private String did4DWin = null;
 	
+	//Beb - Big Eye Boy
+	private boolean isBebOn = false;
+		
+	//Sr - small road
+	private boolean isSrOn = false;
+		
+	//cp - cockroachPig
+	private boolean isCpOn=false;
+	
 	/**
 	 * Defines the object with noCommision Baccarat or 
 	 * with commission which pays 1:0.95 on banker.
@@ -79,6 +88,7 @@ public class BtcScoreCalc {
 	public BtcScoreCalc(boolean noCommission) {
 		this.noCommission = noCommission;
 		shortHand = new ArrayList<>();
+		shortHand.add(1);
 	}
 
 
@@ -132,6 +142,46 @@ public class BtcScoreCalc {
 			updateOTCount();
 		previousHand = handOutcome;
 		update4DIndication();
+		if(!isBebOn || !isSrOn || !isCpOn) {
+			int tmpSize = shortHand.size();
+			int currentDepth = tmpSize > 0 ? shortHand.get(tmpSize -1) : 0;
+			/*
+			 * if(!isBebOn && ((tmpSize == 2 && currentDepth > 1) || tmpSize > 2)) { isBebOn
+			 * = true; } if(!isSrOn && ((tmpSize == 3 && currentDepth > 1) || tmpSize > 3))
+			 * { isSrOn = true; } if(!isCpOn && ((tmpSize == 4 && currentDepth > 1) ||
+			 * tmpSize > 4)) { isCpOn = true; }
+			 */
+			if(!isBebOn)
+				isBebOn = bebOn(tmpSize, currentDepth);
+			if(!isSrOn)
+				isSrOn = srOn(tmpSize, currentDepth);
+			if(!isCpOn)
+				isCpOn = cpOn(tmpSize, currentDepth);
+		}
+	}
+	
+	private boolean bebOn(int size, int currentDepth) {
+		boolean on = false;
+		if((size == 2 && currentDepth > 1) || size > 2) {
+			on = true;
+		}
+		return on;
+	}
+	
+	private boolean srOn(int size, int currentDepth) {
+		boolean on = false;
+		if((size == 3 && currentDepth > 1) || size > 3) {
+			on = true;
+		}
+		return on;
+	}
+	
+	private boolean cpOn(int size, int currentDepth) {
+		boolean on = false;
+		if((size == 4 && currentDepth > 1) || size > 4) {
+			on = true;
+		}
+		return on;
 	}
 	
 	private void updateOTCount() {
@@ -291,6 +341,9 @@ public class BtcScoreCalc {
 		if(handOutcome == previousHand){
 			orCount--;
 			currentEvent++;
+			int size = shortHand.size();
+			int tmp = shortHand.get(size-1);
+			shortHand.set(size-1, ++tmp);
 			if(potentialEvent < 3){
 				potentialEvent ++;
 			}
@@ -311,8 +364,8 @@ public class BtcScoreCalc {
 			}
 			potentialEvent = 1;
 			
-			//on opposite add current event to short hand and reset to 1
-			shortHand.add(currentEvent);
+			//on opposite add 1 to shorthand
+			shortHand.add(1);
 			currentEvent = 1;
 		}
 	}
@@ -398,6 +451,134 @@ public class BtcScoreCalc {
 		return c;
 	}
 	
+	/**
+	 * This returns the score as FiveDScoreCard instance.
+	 * Things to note down are if its a free hand ignore isBetOnPlayer and didWin.
+	 * If not free hand isBetOnPlayer true meaning player bet and false meaning banker bets.
+	 * @return result as {@link FiveDScoreCard} instance. Warning this ignores ties and returns an empty score card. 
+	 */
+	public MrRafaelScoreCard getMrRafaelScoreCard(){
+		//Ignores tie and returns empty score card.
+		if(handOutcome == Outcome.tie)
+			return new MrRafaelScoreCard();
+		boolean isBetOnPlayer = false;
+		boolean didWin = false;
+		//Beb - Big Eye Boy
+		boolean chaosOnBeb = false;
+		
+		//Sr - small road
+		boolean chaosOnSr = false;
+		
+		//cp - cockroachPig
+		boolean chaosOnCp = false;
+		if(!freeHand){
+			if(betsOn == Outcome.player){
+				isBetOnPlayer = true;
+			}
+			if(betsOn == handOutcome){
+				didWin = true;
+				if(noCommission || handOutcome == Outcome.player){
+					score = score + betsPlaced;
+				}
+				else if(!noCommission && handOutcome == Outcome.banker){
+					score = score + (betsPlaced * 0.95);
+				}
+			}else {
+				score = score - betsPlaced;
+			}
+		}
+		int tmpSize = shortHand.size();
+		int currentDepth = tmpSize > 0 ? shortHand.get(tmpSize -1) : 0; 
+		if(isBebOn) {
+			chaosOnBeb = currentDepth == 1 ? shortHand.get(tmpSize - 2) != shortHand.get(tmpSize - 3)
+					: currentDepth > 1 ? shortHand.get(tmpSize - 2) - currentDepth == -1 : false;
+		}
+		if(isSrOn) {
+			chaosOnSr = currentDepth == 1 ? shortHand.get(tmpSize - 2) != shortHand.get(tmpSize - 4)
+					: currentDepth > 1 ? shortHand.get(tmpSize - 3) - currentDepth == -1 : false;
+		}
+		if(isCpOn) {
+			chaosOnCp = currentDepth == 1 ? shortHand.get(tmpSize - 2) != shortHand.get(tmpSize - 5)
+					: currentDepth > 1 ? shortHand.get(tmpSize - 4) - currentDepth == -1 : false;
+		}
+		MrRafaelScoreCard c = new MrRafaelScoreCard(playerCount+BtcScoreCalc.SLASH+bankerCount, 
+													noOfHands, 
+													score, 
+													betsPlaced,
+													isBetOnPlayer,
+													didWin,
+													isBebOn, chaosOnBeb, 
+													isSrOn, chaosOnSr,
+													isCpOn, chaosOnCp,
+													handOutcome);
+		
+		List<Integer> tl = new ArrayList<>();
+		tl.addAll(shortHand);
+		//if next hand player
+		if(handOutcome == Outcome.player) {
+			c.setNextPlayer(getNextOnRepeat(tl));
+		}else {
+			c.setNextPlayer(getNextOnOpposite(tl));
+		}
+		//if next hand banker
+		tl = new ArrayList<>();
+		tl.addAll(shortHand);
+		if(handOutcome == Outcome.banker) {
+			c.setNextBanker(getNextOnRepeat(tl));
+		}else {
+			c.setNextBanker(getNextOnOpposite(tl));
+		}
+		
+		return c;
+	}
+	
+	private String getNextOnRepeat(List<Integer> t) {
+		StringBuilder tmp = new StringBuilder();
+		int tmpSize = t.size();
+		int currentDepth = t.get(tmpSize-1);
+		t.set(tmpSize-1, currentDepth+1);
+		currentDepth = t.get(tmpSize-1);
+		if(isBebOn || bebOn(tmpSize, currentDepth)) {
+			boolean chaosOnBeb = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 3)
+					: currentDepth > 1 ? t.get(tmpSize - 2) - currentDepth == -1 : false;
+			tmp.append(chaosOnBeb ? "C" : "P");
+		}
+		if(isSrOn || srOn(tmpSize, currentDepth)) {
+			boolean chaosOnSr = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 4)
+					: currentDepth > 1 ? t.get(tmpSize - 3) - currentDepth == -1 : false;
+			tmp.append(chaosOnSr ? "C" : "P");
+		}
+		if(isCpOn || cpOn(tmpSize, currentDepth)) {
+			boolean chaosOnCp = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 5)
+					: currentDepth > 1 ? t.get(tmpSize - 4) - currentDepth == -1 : false;
+			tmp.append(chaosOnCp ? "C" : "P");
+		}
+		return tmp.toString();
+	}
+	
+	private String getNextOnOpposite(List<Integer> t) {
+		StringBuilder tmp = new StringBuilder();
+		t.add(1);
+		int tmpSize = t.size();
+		int currentDepth = t.get(tmpSize-1);
+		if(isBebOn || bebOn(tmpSize, currentDepth)) {
+			boolean chaosOnBeb = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 3)
+					: currentDepth > 1 ? t.get(tmpSize - 2) - currentDepth == -1 : false;
+			tmp.append(chaosOnBeb ? "C" : "P");
+		}
+		if(isSrOn || srOn(tmpSize, currentDepth)) {
+			boolean chaosOnSr = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 4)
+					: currentDepth > 1 ? t.get(tmpSize - 3) - currentDepth == -1 : false;
+			tmp.append(chaosOnSr ? "C" : "P");
+		}
+		if(isCpOn || cpOn(tmpSize, currentDepth)) {
+			boolean chaosOnCp = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 5)
+					: currentDepth > 1 ? t.get(tmpSize - 4) - currentDepth == -1 : false;
+			tmp.append(chaosOnCp ? "C" : "P");
+		}
+		return tmp.toString();
+	}
+	
 	public int getOneInARow() {
 		return oneInARow;
 	}
@@ -420,5 +601,52 @@ public class BtcScoreCalc {
 
 	public Outcome getFirstOutcome() {
 		return firstOutcome;
+	}
+	
+	public static void main(String[] args) {
+		List<Integer> l = Arrays.asList(6,1,1,1,1,3,1);
+		int tmpSize = l.size();
+		int currentDepth = l.get(tmpSize-1); 
+		boolean chaosOnBeb = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 3)
+					: currentDepth > 1 ? l.get(tmpSize - 2) - currentDepth == -1 : false;
+		boolean chaosOnSr = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 4)
+					: currentDepth > 1 ? l.get(tmpSize - 3) - currentDepth == -1 : false;
+		boolean chaosOnCp = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 5)
+					: currentDepth > 1 ? l.get(tmpSize - 4) - currentDepth == -1 : false;
+		System.out.println("--------Current Hand-------");
+		System.out.println(chaosOnBeb ? "C-" : "P-");
+		System.out.println(chaosOnSr  ? "C-" : "P-");
+		System.out.println(chaosOnCp  ? "C" : "P");
+		System.out.println("--------If Next Repeat-------");
+		ArrayList<Integer> t = new ArrayList<>();
+		t.addAll(l);
+		t.set(tmpSize-1, currentDepth+1);
+		currentDepth = t.get(tmpSize-1);
+		//If Repeat
+		chaosOnBeb = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 3)
+				: currentDepth > 1 ? l.get(tmpSize - 2) - currentDepth == -1 : false;
+		chaosOnSr = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 4)
+				: currentDepth > 1 ? l.get(tmpSize - 3) - currentDepth == -1 : false;
+		chaosOnCp = currentDepth == 1 ? l.get(tmpSize - 2) != l.get(tmpSize - 5)
+				: currentDepth > 1 ? l.get(tmpSize - 4) - currentDepth == -1 : false;
+		System.out.println(chaosOnBeb ? "C-" : "P-");
+		System.out.println(chaosOnSr  ? "C-" : "P-");
+		System.out.println(chaosOnCp  ? "C" : "P");
+		System.out.println("--------If Next Opposite-------");
+		//If Opposite
+		t = new ArrayList<>();
+		t.addAll(l);
+		t.add(1);
+		tmpSize = t.size();
+		currentDepth = t.get(tmpSize-1);
+		chaosOnBeb = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 3)
+				: currentDepth > 1 ? t.get(tmpSize - 2) - currentDepth == -1 : false;
+		chaosOnSr = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 4)
+				: currentDepth > 1 ? t.get(tmpSize - 3) - currentDepth == -1 : false;
+		chaosOnCp = currentDepth == 1 ? t.get(tmpSize - 2) != t.get(tmpSize - 5)
+				: currentDepth > 1 ? t.get(tmpSize - 4) - currentDepth == -1 : false;
+		System.out.println(chaosOnBeb ? "C-" : "P-");
+		System.out.println(chaosOnSr  ? "C-" : "P-");
+		System.out.println(chaosOnCp  ? "C" : "P");
 	}
 }

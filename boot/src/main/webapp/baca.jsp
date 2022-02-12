@@ -264,7 +264,7 @@
 		</c:forEach>
 	</table>
 	
-	<form action="processForm" method="post">
+	<form action="processForm" th:action="@{/processForm}" method="post">
 		<input type="radio" name="wageredOn" value="player">P
 		<input type="radio" name="wageredOn" value="banker">B
 		<input type="radio" name="wageredOn" value="nb" checked>NB
