@@ -176,6 +176,12 @@ public class VinSapSimulator extends AbstractBacaSimulator implements BacaSystem
 			System.out.println();
 		}
 	}
+
+	@Override
+	public boolean canPlay() {
+		// TODO Auto-generated method stub
+		return false;
+	}
 	
 	
 }

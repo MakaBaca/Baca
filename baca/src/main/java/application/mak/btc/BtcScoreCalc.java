@@ -451,6 +451,10 @@ public class BtcScoreCalc {
 		return c;
 	}
 	
+	public int getNoOfHands() {
+		return noOfHands;
+	}
+
 	/**
 	 * This returns the score as FiveDScoreCard instance.
 	 * Things to note down are if its a free hand ignore isBetOnPlayer and didWin.

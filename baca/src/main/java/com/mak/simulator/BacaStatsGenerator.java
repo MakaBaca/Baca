@@ -31,4 +31,22 @@ public class BacaStatsGenerator extends AbstractBacaSimulator {
 		System.out.println("Average Hands in "+totalShoes+" Shoes is :"+(totalHands/totalShoes));
 	}
 
+	@Override
+	public Bet whatToPlay() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public int unitsToWagger() {
+		// TODO Auto-generated method stub
+		return 0;
+	}
+
+	@Override
+	public boolean canPlay() {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }
